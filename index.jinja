@@ -1,0 +1,102 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>There are stars</title>
+    <style>
+        body {
+            font-family: hoefler, georgia, serif;
+            font-size: 18px;
+        }
+
+        main {
+            margin: 5vw 20vw;
+            line-height: 1.6rem;
+        }
+
+        @media (max-width: 700px) {
+            main {
+                margin: 5vw 5vw;
+            }
+        }
+        h1, h2, h3 {
+            line-height: 1.8rem;
+            font-weight: normal;
+        }
+        h2, h3 {
+            font-style: italic;
+        }
+        header {
+            margin-bottom: 3em;
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+        <header>
+            <h1>There are stars</h1>
+            <h2>A collaborative story.</h2>
+            This story was told {{ repo.updated_at | humanize_naturaldate }}. <a href="https://github.com/lizadaly/there-are-stars">How to participate</a>.
+
+        </header>
+
+
+        <section>
+        <h3>Preface</h3>
+            <p>
+                You started this journey over {{ repo.created_at | humanize_naturaldelta }} ago.
+               You left from your home in the {{ you.home}}. It was a {{ you.weather }} day.
+            </p>
+            <p>
+                To help others follow you, you lay behind you a winding path of {{ you.stone }}
+                cobblestones.
+            </p>
+
+            {% for days, groups in visitors|groupby('visited')%}
+            <section>
+            <h3>Chapter {{ loop.index }}: {{ days.day }} {{ days.strftime('%B') }} </h3>
+
+
+            {% for visitor in groups %}
+                <p>
+                    In a {{ visitor.home }} along the way, a {{ visitor.occupation }} observed a new
+                    star in the sky and decided to follow it.
+                    They set out on a {{ visitor.weather }} day.
+
+                    They followed the {{ you.stone }} path.
+                </p>
+
+                {% if loop.last %}
+                <p>
+                    As the day faded, the {{ visitor.occupation }} noticed that the path
+                    had become thin. They started a new path with {% if visitor.trail_type == "flower" %}
+                        delicate plantings of {{ visitor.flower }} flowers.
+                    {% elif visitor.trail_type == "metal" %}
+                        a shiny trail of {{ visitor.metal }} coins.
+                    {% endif %}
+                </p>
+                {% endif %}
+
+            {% endfor %}
+            </section>
+        {% endfor %}
+
+
+
+        <section>
+        <h3>Epilogue</h3>
+
+        <p>
+            This is how there came to be {{ count }} new star{{ "s" if visitors.length else ''}} in the sky.
+
+        </p>
+
+        </section>
+    </main>
+
+</body>
+
+</html>

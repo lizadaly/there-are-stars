@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "forks"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+pygithub = "^1.57"
+jinja2 = "^3.1.2"
+mypy = "^0.991"
+jinja2-humanize-extension = "^0.2.2"
+num2words = "^0.5.12"
+
+
+[tool.poetry.group.dev.dependencies]
+black = {version = "^22.10.0", allow-prereleases = true}
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

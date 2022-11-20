@@ -1,0 +1,15 @@
+{
+  "conditions": [
+    "rainy",
+    "sunny",
+    "cloudless",
+    "snowy",
+    "peaceful",
+    "fair",
+    "foggy",
+    "damp",
+    "wind-swept",
+    "light",
+    "fragrant"
+  ]
+}
