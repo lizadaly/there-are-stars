@@ -103,10 +103,8 @@
             {% for visitor in groups %}
                 <p>
                     {{ visitor.home.preposition | capitalize }} {{ visitor.home.place }} along the {{ ["way", "route", "path", "road"]|random }}, a{% if visitor.occupation.startswith(('a', 'o', 'i', 'e', 'u'))%}n{% endif %} {{ visitor.occupation }} observed a new
-                    star in the sky and decided to follow it.
-                    They set out on a {{ visitor.weather }} day.
-
-                    They followed the {{ ns.path }} path.
+                    star in the sky and decided to follow the {{ ns.path }} path.
+                    They set out on a {{ visitor.weather }} {{ ["day", "morning", "afternoon", "evening"]|random }}.
                 </p>
 
                 {% if loop.last %}
