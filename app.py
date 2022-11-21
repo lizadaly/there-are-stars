@@ -64,10 +64,17 @@ def main(repo_name=str, mock_users=0):
 
     you = generate_random_modifiers(repo.owner.login, repo.created_at.date())
 
+    stars = len(visitors) + 1 # Total number of stars is the number of visitors plus "you"
+
     loader = FileSystemLoader(".")
     env = Environment(
         loader=loader, extensions=["jinja2_humanize_extension.HumanizeExtension"]
     )
+    def numword(number: int):
+        return num2words(number)
+
+    env.filters["numword"] = numword
+
     template = env.get_template("index.jinja")
     Path("index.html").write_text(
         template.render(
@@ -75,7 +82,7 @@ def main(repo_name=str, mock_users=0):
                 "visitors": visitors,
                 "repo": repo,
                 "you": you,
-                "count": num2words(len(visitors)),
+                "stars": stars,
             }
         )
     )

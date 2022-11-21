@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html>
 <html lang="en">
 <meta property="og:description" content="There are stars: A generative story told through collaboration" />
@@ -8,7 +7,7 @@
 <meta property="og:title" content="There are stars" />
 
 <head>
-    <title>There {{ "is" if visitors|length == 1 else "are" }} {{ count }} star{{ "" if visitors|length == 1 else "s" }}</title>
+    <title>There {{ "is" if stars == 1 else "are" }} {{ stars|numword }} star{{ "" if stars == 1 else "s" }}</title>
     <style>
         html, body {
             margin: 0;
@@ -73,7 +72,7 @@
 
 <body>
     <header>
-        <h1>There {{ "is" if visitors|length == 1 else "are" }} {{ count }} star{{ "" if visitors|length == 1 else "s" }}</h1>
+        <h1>There {{ "is" if stars == 1 else "are" }} {{ stars|numword }} star{{ "" if stars == 1 else "s" }}</h1>
 
         <p>
             This collaborative story was told {{ repo.updated_at | humanize_naturaldate }}. <a href="https://github.com/lizadaly/there-are-stars">How to participate</a>.
@@ -93,7 +92,7 @@
                 cobblestones until your pockets were empty of stones.
             </p>
 
-            {% set ns = namespace(path=you.stone) %}
+            {% set ns = namespace(path=you.stone, star_count=1) %}
 
             {% for days, groups in visitors|groupby('visited')%}
             <section>
@@ -102,14 +101,18 @@
 
             {% for visitor in groups %}
                 <p>
-                    {{ visitor.home.preposition | capitalize }} {{ visitor.home.place }} along the {{ ["way", "route", "path", "road"]|random }}, a{% if visitor.occupation.startswith(('a', 'o', 'i', 'e', 'u'))%}n{% endif %} {{ visitor.occupation }} observed a new
-                    star in the sky and decided to follow the {{ ns.path }} path.
+                    {{ visitor.home.preposition | capitalize }} {{ visitor.home.place }} along the {{ ["way", "route", "path", "road"]|random }}, a{% if visitor.occupation.startswith(('a', 'o', 'i', 'e', 'u'))%}n{% endif %} {{ visitor.occupation }} observed
+
+                    {{ ns.star_count|numword }} new
+                    star{{ "" if ns.star_count == 1 else "s"}} in the sky and decided to follow the {{ ns.path }} path.
                     They set out on a {{ visitor.weather }} {{ ["day", "morning", "afternoon", "evening"]|random }}.
+
+                    {% set ns.star_count = ns.star_count + 1 %}
                 </p>
 
                 {% if loop.last %}
                 <p>
-                    As the day faded, the {{ visitor.occupation }} noticed that the path
+                    After a time, the {{ visitor.occupation }} noticed that the path
                     had become {{ ["thin", "trampled", "faded", "muddied"]|random }} and hard to follow. They started a new trail with {% if visitor.trail_type == "flower" %}
                         delicate plantings of {{ visitor.flower }} flowers
                         {% set ns.path = visitor.flower %}
@@ -136,9 +139,9 @@
         <section>
         <h3>Epilogue</h3>
 
-        <p> After a long journey, your friends arrived at your sanctuary by the sea.
-            {% if visitors|length > 0 %}
-                This is how there came to be {{ count }} new star{{ "" if visitors|length == 1 else "s" }} in the sky.
+        <p> After a long journey, {% if stars > 1 %}your friends{% else %} you {% endif %} arrived at your sanctuary by the sea.
+            {% if stars > 1 %}
+                This is how there came to be {{ stars|numword }} new star{{ "" if stars == 1 else "s" }} in the sky.
             {% else %}
                 Perhaps the next time others will follow.
             {% endif %}
@@ -158,7 +161,7 @@
         return Math.random() * (max - min) + min;
     }
 
-    for (let i=0; i < stars; i++) {
+    for (let i=0; i <= stars; i++) {
         const star = document.createElement('div');
         star.classList.add('star');
         const left  = parseInt(rand(0, header.clientWidth), 10).toString();
