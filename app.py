@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 import os
 from pathlib import Path
 import json
@@ -21,9 +21,7 @@ def generate_random_modifiers(username: str, visited: datetime) -> dict[str, str
         "material": random.choice(
             json.load(Path("data/natural-materials.json").open())["natural materials"]
         ),
-        "flower": random.choice(
-            json.load(Path("data/flowers.json").open())["flowers"]
-        ),
+        "flower": random.choice(json.load(Path("data/flowers.json").open())["flowers"]),
         "stone": random.choice(
             json.load(Path("data/decorative-stones.json").open())["decorative stones"]
         ),
@@ -38,7 +36,6 @@ def generate_random_modifiers(username: str, visited: datetime) -> dict[str, str
         ),
         "trail_type": random.choice(["flower", "metal"]),
         "visited": visited,
-
     }
 
 
@@ -46,15 +43,26 @@ def create_visitors(repo: Repository) -> list[dict[str, str]]:
     visitors: list[dict[str, str]] = []
 
     for visitor in repo.get_stargazers_with_dates():
-        visitors.append(generate_random_modifiers(visitor.user.login, visitor.starred_at))
+        visitors.append(
+            generate_random_modifiers(visitor.user.login, visitor.starred_at.date())
+        )
 
     return visitors
 
-def main(repo_name=str):
+
+def main(repo_name=str, mock_users=0):
     repo = g.get_repo(repo_name)
 
-    visitors = create_visitors(repo)
-    you = generate_random_modifiers(repo.owner.login, repo.created_at)
+    visitors: list[dict[str, str]] = []
+
+    for i in range(0, mock_users):
+        # Group mock user in groups of 2
+        date = datetime.today() + timedelta(days=i if i % 2 == 0 else i - 1)
+        visitors.append(generate_random_modifiers(str(random.randint(0, 1000)), date.date()))
+
+    visitors = visitors + create_visitors(repo)
+
+    you = generate_random_modifiers(repo.owner.login, repo.created_at.date())
 
     loader = FileSystemLoader(".")
     env = Environment(
@@ -67,7 +75,7 @@ def main(repo_name=str):
                 "visitors": visitors,
                 "repo": repo,
                 "you": you,
-                "count": num2words(len(visitors))
+                "count": num2words(len(visitors)),
             }
         )
     )
@@ -81,5 +89,11 @@ if __name__ == "__main__":
         "--repo",
         default="lizadaly/there-are-stars",
     )
+    parser.add_argument(
+        "--mock-users",
+        default=0,
+        type=int,
+        help="Generate a test run with N numbers of mock users",
+    )
     args = parser.parse_args()
-    main(repo_name=args.repo)
+    main(repo_name=args.repo, mock_users=args.mock_users)

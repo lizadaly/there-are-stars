@@ -12,7 +12,7 @@
         }
 
         main {
-            margin: 5vw 20vw;
+            margin: 5vw 20vw 20vh 20vw;
             line-height: 1.6rem;
         }
 
@@ -30,6 +30,9 @@
         }
         header {
             margin-bottom: 3em;
+        }
+        footer {
+            margin: 5vh 20vw;
         }
     </style>
 </head>
@@ -52,8 +55,10 @@
             </p>
             <p>
                 To help others follow you, you lay behind you a winding path of {{ you.stone }}
-                cobblestones.
+                cobblestones until your pockets were empty of stones.
             </p>
+
+            {% set ns = namespace(path=you.stone) %}
 
             {% for days, groups in visitors|groupby('visited')%}
             <section>
@@ -62,20 +67,29 @@
 
             {% for visitor in groups %}
                 <p>
-                    In a {{ visitor.home }} along the way, a {{ visitor.occupation }} observed a new
+                    In a {{ visitor.home }} along the way, a{% if visitor.occupation.startswith(('a', 'o', 'i', 'e', 'u'))%}n{% endif %} {{ visitor.occupation }} observed a new
                     star in the sky and decided to follow it.
                     They set out on a {{ visitor.weather }} day.
 
-                    They followed the {{ you.stone }} path.
+                    They followed the {{ ns.path }} path.
                 </p>
 
                 {% if loop.last %}
                 <p>
                     As the day faded, the {{ visitor.occupation }} noticed that the path
-                    had become thin. They started a new path with {% if visitor.trail_type == "flower" %}
-                        delicate plantings of {{ visitor.flower }} flowers.
+                    had become thin and hard to follow. They started a new trail with {% if visitor.trail_type == "flower" %}
+                        delicate plantings of {{ visitor.flower }} flowers
+                        {% set ns.path = visitor.flower %}
                     {% elif visitor.trail_type == "metal" %}
-                        a shiny trail of {{ visitor.metal }} coins.
+                        a shiny line of {{ visitor.metal }} coins
+                        {% set ns.path = visitor.metal %}
+                    {% endif %}
+
+                    until their pockets were empty of
+                    {% if visitor.trail_type == "flower" %}
+                        seeds.
+                    {% elif visitor.trail_type == "metal" %}
+                        metal.
                     {% endif %}
                 </p>
                 {% endif %}
@@ -89,13 +103,16 @@
         <section>
         <h3>Epilogue</h3>
 
-        <p>
-            This is how there came to be {{ count }} new star{{ "s" if visitors.length else ''}} in the sky.
+        <p> After a long journey, they arrived at their new home by the sea.
+            This is how there came to be {{ count }} new stars in the sky.
 
         </p>
 
         </section>
     </main>
+    <footer>
+    <a href="https://github.com/lizadaly/there-are-stars">About this story</a>
+    </footer>
 
 </body>
 
