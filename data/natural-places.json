@@ -1,20 +1,23 @@
 {
-    "natural places": [
-        "valley",
-        "settlement",
-        "coastline",
-        "harbor",
-        "bay",
-        "inlet",
-        "mountaintop",
-        "deep rift",
-        "farmland",
-        "city",
-        "countryside",
-        "village",
-        "forest",
-        "glen",
-        "hilltop",
-        "grange"
-    ]
+  "natural places": [
+    { "place": "valley", "preposition": "in a" },
+    { "place": "settlement", "preposition": "in a" },
+    { "place": "coastline", "preposition": "on the" },
+    { "place": "harbor", "preposition": "in a" },
+    { "place": "bay", "preposition": "in a" },
+    { "place": "inlet", "preposition": "in a" },
+    { "place": "mountain", "preposition": "on a" },
+    { "place": "deep rift", "preposition": "in a" },
+    { "place": "farmland", "preposition": "in some" },
+    { "place": "city", "preposition": "in a" },
+    { "place": "countryside", "preposition": "in the" },
+    { "place": "village", "preposition": "in a" },
+    { "place": "farmland", "preposition": "in some" },
+    { "place": "forest", "preposition": "in a" },
+    { "place": "glen", "preposition": "in a" },
+    { "place": "hilltop", "preposition": "on a" },
+    { "place": "grange", "preposition": "in a" },
+    { "place": "steppe", "preposition": "on the" },
+    { "place": "village", "preposition": "outside a" }
+  ]
 }

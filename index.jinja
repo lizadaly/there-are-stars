@@ -4,7 +4,7 @@
 <html lang="en">
 
 <head>
-    <title>There are stars</title>
+    <title>There are {{ count }} stars</title>
     <style>
         body {
             font-family: hoefler, georgia, serif;
@@ -40,7 +40,7 @@
 <body>
     <main>
         <header>
-            <h1>There are stars</h1>
+            <h1>There are {{ count }} stars</h1>
             <h2>A collaborative story.</h2>
             This story was told {{ repo.updated_at | humanize_naturaldate }}. <a href="https://github.com/lizadaly/there-are-stars">How to participate</a>.
 
@@ -48,10 +48,10 @@
 
 
         <section>
-        <h3>Preface</h3>
+        <h3>Prologue</h3>
             <p>
                 You started this journey over {{ repo.created_at | humanize_naturaldelta }} ago.
-               You left from your home in the {{ you.home}}. It was a {{ you.weather }} day.
+               You left from your home {{ you.home.preposition }} {{ you.home.place }}. It was a {{ you.weather }} day.
             </p>
             <p>
                 To help others follow you, you lay behind you a winding path of {{ you.stone }}
@@ -67,7 +67,7 @@
 
             {% for visitor in groups %}
                 <p>
-                    In a {{ visitor.home }} along the way, a{% if visitor.occupation.startswith(('a', 'o', 'i', 'e', 'u'))%}n{% endif %} {{ visitor.occupation }} observed a new
+                    {{ visitor.home.preposition | capitalize }} {{ visitor.home.place }} along the {{ ["way", "route", "path", "road"]|random }}, a{% if visitor.occupation.startswith(('a', 'o', 'i', 'e', 'u'))%}n{% endif %} {{ visitor.occupation }} observed a new
                     star in the sky and decided to follow it.
                     They set out on a {{ visitor.weather }} day.
 
@@ -103,7 +103,7 @@
         <section>
         <h3>Epilogue</h3>
 
-        <p> After a long journey, they arrived at their new home by the sea.
+        <p> After a long journey, they arrived at their sanctuary by the sea.
             This is how there came to be {{ count }} new stars in the sky.
 
         </p>
