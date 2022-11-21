@@ -2,12 +2,13 @@
 name: Publish the story
 
 on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
+  # Trigger on push to main or every N minutes
   push:
     branches: [ "main" ]
-  fork:
+  schedule:
+    - cron: "*/30 * * * *"
 
-  # Allows you to run this workflow manually from the Actions tab
+  # Or manually
   workflow_dispatch:
 
 # Allow one concurrent deployment
