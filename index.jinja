@@ -169,7 +169,7 @@
         return Math.random() * (max - min) + min;
     }
 
-    for (let i=0; i <= stars; i++) {
+    for (let i=0; i < stars; i++) {
         const star = document.createElement('div');
         star.classList.add('star');
         const left  = parseInt(rand(0, header.clientWidth), 10).toString();
