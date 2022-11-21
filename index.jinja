@@ -71,7 +71,7 @@
 
 <body>
     <header>
-        <h1>There are {{ count }} stars</h1>
+        <h1>There {{ "is" if visitors|length == 1 else "are" }} {{ count }} star{{ "" if visitors|length == 1 else "s" }}</h1>
 
         <p>
             This collaborative story was told {{ repo.updated_at | humanize_naturaldate }}. <a href="https://github.com/lizadaly/there-are-stars">How to participate</a>.
@@ -136,8 +136,12 @@
         <section>
         <h3>Epilogue</h3>
 
-        <p> After a long journey, they arrived at their sanctuary by the sea.
-            This is how there came to be {{ count }} new stars in the sky.
+        <p> After a long journey, you arrived at your sanctuary by the sea.
+            {% if visitors|length > 0 %}
+                This is how there came to be {{ count }} new star{{ "" if visitors|length == 1 else "s" }} in the sky.
+            {% else %}
+                Perhaps the next time others will follow.
+            {% endif %}
 
         </p>
 
