@@ -85,14 +85,14 @@
         <h3>Prologue</h3>
             <p>
                 You started this journey over {{ repo.created_at | humanize_naturaldelta }} ago.
-               You left from your home {{ you.home.preposition }} {{ you.home.place }}. It was a {{ you.weather }} day.
+               You left from your {{ you.home.place }}. It was a {{ you.weather }} day.
             </p>
             <p>
                 To help others follow you, you lay behind you a winding path of {{ you.stone }}
                 cobblestones until your pockets were empty of stones.
             </p>
 
-            {% set ns = namespace(path=you.stone, star_count=1) %}
+            {% set ns = namespace(path=you.stone, star_count=0) %}
 
             {% for days, groups in visitors|groupby('visited')%}
             <section>
@@ -101,13 +101,20 @@
 
             {% for visitor in groups %}
                 <p>
-                    {{ visitor.home.preposition | capitalize }} {{ visitor.home.place }} along the {{ ["way", "route", "path", "road"]|random }}, a{% if visitor.occupation.startswith(('a', 'o', 'i', 'e', 'u'))%}n{% endif %} {{ visitor.occupation }} observed
+                    {{ visitor.home.preposition | capitalize }} {{ visitor.home.place }} along the {{ ["way", "route", "path", "road"]|random }}, a{% if visitor.occupation.startswith(('a', 'o', 'i', 'e', 'u'))%}n{% endif %}
 
-                    {{ ns.star_count|numword }} new
-                    star{{ "" if ns.star_count == 1 else "s"}} in the sky and decided to follow the {{ ns.path }} path.
+                    {{ visitor.occupation }}
+
+                    {% if ns.star_count > 0 %}
+                        observed {{ ns.star_count|numword }} new star{{ "" if ns.star_count == 1 else "s"}} in the sky
+                    {% else %}
+                        felt a stirring
+                    {% endif %}
+
+                    and decided to follow the {{ ns.path }} path.
                     They set out on a {{ visitor.weather }} {{ ["day", "morning", "afternoon", "evening"]|random }}.
 
-                    {% set ns.star_count = ns.star_count + 1 %}
+
                 </p>
 
                 {% if loop.last %}
@@ -130,6 +137,7 @@
                 </p>
                 {% endif %}
 
+                {% set ns.star_count = ns.star_count + 1 %}
             {% endfor %}
             </section>
         {% endfor %}

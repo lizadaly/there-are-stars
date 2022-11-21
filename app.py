@@ -64,7 +64,7 @@ def main(repo_name=str, mock_users=0):
 
     you = generate_random_modifiers(repo.owner.login, repo.created_at.date())
 
-    stars = len(visitors) + 1 # Total number of stars is the number of visitors plus "you"
+    stars = len(visitors)
 
     loader = FileSystemLoader(".")
     env = Environment(
