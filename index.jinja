@@ -8,7 +8,7 @@
 <meta property="og:title" content="There are stars" />
 
 <head>
-    <title>There are {{ count }} stars</title>
+    <title>There {{ "is" if visitors|length == 1 else "are" }} {{ count }} star{{ "" if visitors|length == 1 else "s" }}</title>
     <style>
         html, body {
             margin: 0;
@@ -17,8 +17,8 @@
             background:rgb(219, 219, 219);
         }
         body {
-            font-family: gill-sans, sans-serif;
-            font-size: 18px;
+            font-family: "gill sans", sans-serif;
+            font-size: 22px;
         }
         a {
             color: rgb(255, 246, 236);
@@ -35,6 +35,7 @@
         }
         h1 {
             margin: 0;
+            font-weight: normal;
         }
         h1, h2, h3 {
             line-height: 1.8rem;
@@ -42,6 +43,7 @@
         }
         h2, h3 {
             margin-top: 2rem;
+            font-weight: normal;
         }
         h3 {
             text-align: center;
