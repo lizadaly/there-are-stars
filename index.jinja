@@ -2,15 +2,27 @@
 
 <!DOCTYPE html>
 <html lang="en">
+<meta property="og:description" content="There are stars: A generative story told through collaboration" />
+<meta property="og:type" content="website" />
+<meta name="author" content="Liza Daly" />
+<meta property="og:title" content="There are stars" />
 
 <head>
     <title>There are {{ count }} stars</title>
     <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: auto;
+            background:rgb(219, 219, 219);
+        }
         body {
-            font-family: hoefler, georgia, serif;
+            font-family: gill-sans, sans-serif;
             font-size: 18px;
         }
-
+        a {
+            color: rgb(255, 246, 236);
+        }
         main {
             margin: 5vw 20vw 20vh 20vw;
             line-height: 1.6rem;
@@ -21,31 +33,52 @@
                 margin: 5vw 5vw;
             }
         }
+        h1 {
+            margin: 0;
+        }
         h1, h2, h3 {
             line-height: 1.8rem;
             font-weight: normal;
         }
         h2, h3 {
-            font-style: italic;
+            margin-top: 2rem;
+        }
+        h3 {
+            text-align: center;
+
         }
         header {
-            margin-bottom: 3em;
+            height: 20vh;
+            background: radial-gradient(circle at 100%, rgb(38, 36, 77), #333 50%, rgb(15, 15, 16) 75%);
+            color: rgb(255, 246, 236);
+            margin: 0;
+            padding: 2rem;
         }
         footer {
             margin: 5vh 20vw;
         }
+        .star {
+            position: absolute;
+            opacity: 0.5;
+            color: rgb(255, 246, 236);
+        }
+        .star:before {
+            content: '•';
+        }
+
     </style>
 </head>
 
 <body>
+    <header>
+        <h1>There are {{ count }} stars</h1>
+
+        <p>
+            This collaborative story was told {{ repo.updated_at | humanize_naturaldate }}. <a href="https://github.com/lizadaly/there-are-stars">How to participate</a>.
+        </p>
+
+    </header>
     <main>
-        <header>
-            <h1>There are {{ count }} stars</h1>
-            <h2>A collaborative story.</h2>
-            This story was told {{ repo.updated_at | humanize_naturaldate }}. <a href="https://github.com/lizadaly/there-are-stars">How to participate</a>.
-
-        </header>
-
 
         <section>
         <h3>Prologue</h3>
@@ -62,7 +95,7 @@
 
             {% for days, groups in visitors|groupby('visited')%}
             <section>
-            <h3>Chapter {{ loop.index }}: {{ days.day }} {{ days.strftime('%B') }} </h3>
+            <h3>Chapter {{ loop.index }} <br><em>{{ days.day }} {{ days.strftime('%B') }}</em></h3>
 
 
             {% for visitor in groups %}
@@ -77,7 +110,7 @@
                 {% if loop.last %}
                 <p>
                     As the day faded, the {{ visitor.occupation }} noticed that the path
-                    had become thin and hard to follow. They started a new trail with {% if visitor.trail_type == "flower" %}
+                    had become {{ ["thin", "trampled", "faded", "muddied"]|random }} and hard to follow. They started a new trail with {% if visitor.trail_type == "flower" %}
                         delicate plantings of {{ visitor.flower }} flowers
                         {% set ns.path = visitor.flower %}
                     {% elif visitor.trail_type == "metal" %}
@@ -111,9 +144,26 @@
         </section>
     </main>
     <footer>
-    <a href="https://github.com/lizadaly/there-are-stars">About this story</a>
+    <a href="https://github.com/lizadaly/there-are-stars" style="color: black">About this story</a>
     </footer>
+    <script>
+    const stars = {{ visitors|length }};
+    const header = document.querySelector('header');
 
+    function rand(min, max) {
+        return Math.random() * (max - min) + min;
+    }
+
+    for (let i=0; i < stars; i++) {
+        const star = document.createElement('div');
+        star.classList.add('star');
+        const left  = parseInt(rand(0, header.clientWidth), 10).toString();
+        const top = parseInt(rand(0, header.clientHeight, 10)).toString();
+        star.style.left = `${left}px`;
+        star.style.top = `${top}px`;
+        document.body.append(star);
+    }
+    </script>
 </body>
 
 </html>
