@@ -75,7 +75,7 @@
         <h1>There {{ "is" if stars == 1 else "are" }} {{ stars|numword }} star{{ "" if stars == 1 else "s" }}</h1>
 
         <p>
-            This collaborative story began {{ repo.updated_at | humanize_naturaldate }}. <a href="https://github.com/lizadaly/there-are-stars">How to participate</a>.
+            This collaborative story began {{ repo.created_at | humanize_naturaldate }}. <a href="https://github.com/lizadaly/there-are-stars">How to participate</a>.
         </p>
 
     </header>
