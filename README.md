@@ -12,7 +12,7 @@ The story code will use a hash of the username who starred the repository to gen
 remain the same. The story does not otherwise use any information about users
 who interact with the repository.
 
-If you have starred the repository and you un-star it, the character repesenting you
+If you have starred the repository and you un-star it, the character representing you
 will disappear the next time the story is regenerated.
 
 
