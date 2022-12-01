@@ -1,6 +1,6 @@
 # There are stars: A story
 
-A collaborative narrative told through Github and automation. An entry in [National Novel Generation Month 2022](https://github.com/NaNoGenMo/2022).
+A collaborative narrative told through Github and automation. An entry in [National Novel Generation Month 2022](https://github.com/NaNoGenMo/2022), which has now ended.
 
 The story: https://lizadaly.github.io/there-are-stars/
 ## How to participate
